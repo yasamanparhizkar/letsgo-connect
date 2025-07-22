@@ -36,8 +36,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
     onSuccess: (user: SelectUser) => {
       queryClient.setQueryData(["/api/user"], user);
-      // Force reload the page to ensure proper navigation
-      window.location.href = "/";
     },
     onError: (error: Error) => {
       toast({
@@ -55,8 +53,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
     onSuccess: (user: SelectUser) => {
       queryClient.setQueryData(["/api/user"], user);
-      // Force reload the page to ensure proper navigation
-      window.location.href = "/";
     },
     onError: (error: Error) => {
       toast({

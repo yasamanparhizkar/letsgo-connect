@@ -16,12 +16,22 @@ import NotFound from "@/pages/not-found";
 function Router() {
   const { user, isLoading } = useAuth();
 
+  // Show loading state during auth check to prevent 404 flash
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-deep-black flex items-center justify-center">
+        <div className="text-elegant-white">Loading...</div>
+      </div>
+    );
+  }
+
   return (
     <Switch>
-      {isLoading || !user ? (
+      {!user ? (
         <>
           <Route path="/" component={Landing} />
           <Route path="/auth" component={Auth} />
+          <Route component={NotFound} />
         </>
       ) : (
         <>
@@ -30,9 +40,9 @@ function Router() {
           <Route path="/members" component={Members} />
           <Route path="/forums" component={Forums} />
           <Route path="/profile" component={Profile} />
+          <Route component={NotFound} />
         </>
       )}
-      <Route component={NotFound} />
     </Switch>
   );
 }
