@@ -70,8 +70,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
     onSuccess: () => {
       queryClient.setQueryData(["/api/user"], null);
-      // Force reload to ensure proper navigation
-      window.location.href = "/";
+      queryClient.clear(); // Clear all cached data
+      // Use a slight delay to prevent flashing, then redirect
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 100);
     },
     onError: (error: Error) => {
       toast({

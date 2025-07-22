@@ -14,10 +14,10 @@ import Auth from "@/pages/auth";
 import NotFound from "@/pages/not-found";
 
 function Router() {
-  const { user, isLoading } = useAuth();
+  const { user, isLoading, logoutMutation } = useAuth();
 
-  // Show loading state during auth check to prevent 404 flash
-  if (isLoading) {
+  // Show loading state during auth check or logout to prevent flashing
+  if (isLoading || logoutMutation.isPending) {
     return (
       <div className="min-h-screen bg-deep-black flex items-center justify-center">
         <div className="text-elegant-white">Loading...</div>
