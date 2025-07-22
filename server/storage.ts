@@ -4,6 +4,7 @@ import {
   forumCategories,
   forumPosts,
   forumReplies,
+  chatMessages,
   type User,
   type InsertUser,
   type MemberProfile,
@@ -13,6 +14,8 @@ import {
   type InsertForumPost,
   type ForumReply,
   type InsertForumReply,
+  type ChatMessage,
+  type InsertChatMessage,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, asc, ilike, count, sql } from "drizzle-orm";
@@ -41,6 +44,11 @@ export interface IStorage {
   createForumReply(reply: InsertForumReply): Promise<ForumReply>;
   likeForumPost(postId: number): Promise<void>;
   likeForumReply(replyId: number): Promise<void>;
+  
+  // Chat operations
+  getChatMessages(): Promise<{ id: number; userId: number; username: string; firstName?: string; lastName?: string; profileImageUrl?: string; message: string; timestamp: string }[]>;
+  createChatMessage(message: InsertChatMessage): Promise<ChatMessage>;
+  getChatMessageWithUser(id: number): Promise<ChatMessage & { user: User }>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -283,6 +291,54 @@ export class DatabaseStorage implements IStorage {
         likes: sql`${forumReplies.likes} + 1` 
       })
       .where(eq(forumReplies.id, replyId));
+  }
+
+  // Chat operations
+  async getChatMessages(): Promise<{ id: number; userId: number; username: string; firstName?: string; lastName?: string; profileImageUrl?: string; message: string; timestamp: string }[]> {
+    const messages = await db
+      .select({
+        id: chatMessages.id,
+        userId: chatMessages.userId,
+        username: users.username,
+        firstName: users.firstName,
+        lastName: users.lastName,
+        profileImageUrl: users.profileImageUrl,
+        message: chatMessages.message,
+        timestamp: chatMessages.createdAt,
+      })
+      .from(chatMessages)
+      .innerJoin(users, eq(chatMessages.userId, users.id))
+      .orderBy(asc(chatMessages.createdAt))
+      .limit(100);
+
+    return messages.map(msg => ({
+      ...msg,
+      timestamp: msg.timestamp.toISOString()
+    }));
+  }
+
+  async createChatMessage(messageData: InsertChatMessage): Promise<ChatMessage> {
+    const [message] = await db
+      .insert(chatMessages)
+      .values(messageData)
+      .returning();
+    return message;
+  }
+
+  async getChatMessageWithUser(id: number): Promise<ChatMessage & { user: User }> {
+    const [result] = await db
+      .select({
+        id: chatMessages.id,
+        userId: chatMessages.userId,
+        message: chatMessages.message,
+        createdAt: chatMessages.createdAt,
+        user: users,
+      })
+      .from(chatMessages)
+      .innerJoin(users, eq(chatMessages.userId, users.id))
+      .where(eq(chatMessages.id, id));
+
+    return result;
   }
 }
 

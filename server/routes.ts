@@ -1,8 +1,9 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import { WebSocketServer, WebSocket } from "ws";
 import { storage } from "./storage";
 import { setupAuth } from "./auth";
-import { insertMemberProfileSchema, insertForumPostSchema, insertForumReplySchema } from "@shared/schema";
+import { insertMemberProfileSchema, insertForumPostSchema, insertForumReplySchema, insertChatMessageSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -224,5 +225,139 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   const httpServer = createServer(app);
+
+  // WebSocket server for real-time chat
+  const wss = new WebSocketServer({ server: httpServer, path: '/ws' });
+  
+  interface ConnectedUser {
+    ws: WebSocket;
+    userId: string;
+    username: string;
+    firstName?: string;
+    lastName?: string;
+  }
+
+  const connectedUsers = new Map<string, ConnectedUser>();
+
+  wss.on('connection', (ws: WebSocket) => {
+    let currentUser: ConnectedUser | null = null;
+
+    ws.on('message', async (message: Buffer) => {
+      try {
+        const data = JSON.parse(message.toString());
+
+        switch (data.type) {
+          case 'join':
+            currentUser = {
+              ws,
+              userId: data.user.userId,
+              username: data.user.username,
+              firstName: data.user.firstName,
+              lastName: data.user.lastName
+            };
+            
+            connectedUsers.set(data.user.userId, currentUser);
+
+            // Send chat history to new user
+            try {
+              const messages = await storage.getChatMessages();
+              ws.send(JSON.stringify({
+                type: 'chatHistory',
+                messages
+              }));
+            } catch (error) {
+              console.error("Error fetching chat history:", error);
+            }
+
+            // Notify all users of new connection
+            const userInfo = {
+              userId: data.user.userId,
+              username: data.user.username,
+              firstName: data.user.firstName,
+              lastName: data.user.lastName
+            };
+
+            broadcast({
+              type: 'userJoined',
+              user: userInfo
+            });
+
+            // Send current online users to new user
+            const onlineUsers = Array.from(connectedUsers.values()).map(user => ({
+              userId: user.userId,
+              username: user.username,
+              firstName: user.firstName,
+              lastName: user.lastName
+            }));
+
+            ws.send(JSON.stringify({
+              type: 'onlineUsers',
+              users: onlineUsers
+            }));
+            break;
+
+          case 'sendMessage':
+            if (!currentUser) {
+              ws.send(JSON.stringify({ type: 'error', message: 'Not authenticated' }));
+              return;
+            }
+
+            try {
+              const messageData = insertChatMessageSchema.parse({
+                userId: parseInt(currentUser.userId),
+                message: data.message
+              });
+
+              const newMessage = await storage.createChatMessage(messageData);
+              const messageWithUser = await storage.getChatMessageWithUser(newMessage.id);
+
+              broadcast({
+                type: 'message',
+                message: {
+                  id: messageWithUser.id.toString(),
+                  userId: messageWithUser.userId.toString(),
+                  username: messageWithUser.user.username,
+                  firstName: messageWithUser.user.firstName,
+                  lastName: messageWithUser.user.lastName,
+                  profileImageUrl: messageWithUser.user.profileImageUrl,
+                  message: messageWithUser.message,
+                  timestamp: messageWithUser.createdAt.toISOString()
+                }
+              });
+            } catch (error) {
+              console.error("Error saving message:", error);
+              ws.send(JSON.stringify({ type: 'error', message: 'Failed to send message' }));
+            }
+            break;
+        }
+      } catch (error) {
+        console.error("Error parsing WebSocket message:", error);
+      }
+    });
+
+    ws.on('close', () => {
+      if (currentUser) {
+        connectedUsers.delete(currentUser.userId);
+        broadcast({
+          type: 'userLeft',
+          userId: currentUser.userId
+        });
+      }
+    });
+
+    ws.on('error', (error) => {
+      console.error("WebSocket error:", error);
+    });
+  });
+
+  function broadcast(data: any) {
+    const message = JSON.stringify(data);
+    connectedUsers.forEach(user => {
+      if (user.ws.readyState === WebSocket.OPEN) {
+        user.ws.send(message);
+      }
+    });
+  }
+
   return httpServer;
 }

@@ -92,11 +92,20 @@ export const forumReplies = pgTable("forum_replies", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Chat messages
+export const chatMessages = pgTable("chat_messages", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  message: text("message").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // Relations
 export const usersRelations = relations(users, ({ one, many }) => ({
   profile: one(memberProfiles),
   posts: many(forumPosts),
   replies: many(forumReplies),
+  chatMessages: many(chatMessages),
 }));
 
 export const memberProfilesRelations = relations(memberProfiles, ({ one }) => ({
@@ -133,6 +142,13 @@ export const forumRepliesRelations = relations(forumReplies, ({ one }) => ({
   }),
 }));
 
+export const chatMessagesRelations = relations(chatMessages, ({ one }) => ({
+  user: one(users, {
+    fields: [chatMessages.userId],
+    references: [users.id],
+  }),
+}));
+
 // Types
 // Insert and select types
 export const insertUserSchema = createInsertSchema(users).omit({ id: true, createdAt: true, updatedAt: true });
@@ -155,3 +171,7 @@ export type ForumReply = typeof forumReplies.$inferSelect;
 
 export type ForumCategory = typeof forumCategories.$inferSelect;
 export type InsertForumCategory = typeof forumCategories.$inferInsert;
+
+export const insertChatMessageSchema = createInsertSchema(chatMessages).omit({ id: true, createdAt: true });
+export type InsertChatMessage = z.infer<typeof insertChatMessageSchema>;
+export type ChatMessage = typeof chatMessages.$inferSelect;

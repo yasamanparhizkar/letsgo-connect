@@ -26,7 +26,7 @@ export default function Navigation() {
     { href: "/", label: "Home", icon: Home },
     { href: "/about", label: "About", icon: null },
     { href: "/members", label: "Members", icon: Users },
-    { href: "/forums", label: "Forums", icon: MessageSquare },
+    { href: "/chat", label: "Chat", icon: MessageSquare },
   ];
 
   return (

@@ -8,7 +8,7 @@ import Landing from "@/pages/landing";
 import Home from "@/pages/home";
 import About from "@/pages/about";
 import Members from "@/pages/members";
-import Forums from "@/pages/forums";
+import Chat from "@/pages/chat";
 import Profile from "@/pages/profile";
 import Auth from "@/pages/auth";
 import NotFound from "@/pages/not-found";
@@ -33,7 +33,7 @@ function Router() {
         <>
           <Route path="/about" component={About} />
           <Route path="/members" component={Members} />
-          <Route path="/forums" component={Forums} />
+          <Route path="/chat" component={Chat} />
           <Route path="/profile" component={Profile} />
         </>
       )}
