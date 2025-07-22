@@ -71,10 +71,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     onSuccess: () => {
       queryClient.setQueryData(["/api/user"], null);
       queryClient.clear(); // Clear all cached data
-      // Use a slight delay to prevent flashing, then redirect
-      setTimeout(() => {
-        window.location.href = "/";
-      }, 100);
+      // Immediate redirect to prevent 404 flash
+      window.location.href = "/";
     },
     onError: (error: Error) => {
       toast({
