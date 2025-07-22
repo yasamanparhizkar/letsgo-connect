@@ -10,16 +10,18 @@ import { Users, MessageSquare, Calendar, TrendingUp } from "lucide-react";
 import { useState } from "react";
 
 export default function Home() {
-  const { user } = useAuth();
+  const { user, isLoading: authLoading } = useAuth();
   const [showCreateProfile, setShowCreateProfile] = useState(false);
 
-  const { data: profiles } = useQuery({
+  const { data: profiles, isLoading: profilesLoading } = useQuery({
     queryKey: ["/api/profiles"],
+    enabled: !!user?.id, // Only fetch when user is loaded
   });
 
   // Find current user's profile
   const userProfile = Array.isArray(profiles) ? profiles.find((p: any) => p.userId === user?.id) : undefined;
   const needsProfile = !userProfile;
+  const isLoading = authLoading || profilesLoading;
 
   return (
     <div className="min-h-screen bg-deep-black text-elegant-white">
@@ -41,7 +43,7 @@ export default function Home() {
                 Go community.
               </p>
 
-              {needsProfile && (
+              {!isLoading && needsProfile && (
                 <Card className="max-w-2xl mx-auto mb-8 border-accent-blue border-2">
                   <CardContent className="p-6">
                     <h3 className="text-xl font-semibold mb-3">
