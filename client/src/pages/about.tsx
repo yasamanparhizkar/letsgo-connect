@@ -53,7 +53,9 @@ export default function About() {
                   <div className="w-16 h-16 bg-accent-blue bg-opacity-20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-200">
                     <Heart className="text-accent-blue" size={32} />
                   </div>
-                  <h3 className="text-2xl font-semibold mb-4">Service</h3>
+                  <h3 className="text-2xl font-semibold mb-4 text-gray-300">
+                    Service
+                  </h3>
                   <p className="text-gray-300">
                     We believe in creating something of service to the world.
                     Every founder in our community is driven by the desire to
@@ -67,7 +69,9 @@ export default function About() {
                   <div className="w-16 h-16 bg-success-green bg-opacity-20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-200">
                     <Users className="text-success-green" size={32} />
                   </div>
-                  <h3 className="text-2xl font-semibold mb-4">Community</h3>
+                  <h3 className="text-2xl font-semibold mb-4 text-gray-300">
+                    Community
+                  </h3>
                   <p className="text-gray-300">
                     We foster a diverse, inclusive community where builders from
                     all backgrounds can find support, mentorship, and meaningful
@@ -81,7 +85,9 @@ export default function About() {
                   <div className="w-16 h-16 bg-purple-500 bg-opacity-20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-200">
                     <Zap className="text-purple-400" size={32} />
                   </div>
-                  <h3 className="text-2xl font-semibold mb-4">Innovation</h3>
+                  <h3 className="text-2xl font-semibold mb-4 text-gray-300">
+                    Innovation
+                  </h3>
                   <p className="text-gray-300">
                     We celebrate breakthrough thinking and bold ideas. Our
                     community is built for those who dare to innovate and
@@ -165,7 +171,7 @@ export default function About() {
           </div>
         </section>
 
-        {/* Our Mission */}
+        {/*
         <section className="py-20 bg-charcoal">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="bg-gradient-to-r from-accent-blue to-success-green p-1 rounded-2xl">
@@ -240,7 +246,7 @@ export default function About() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* Call to Action */}
         <section className="py-20 bg-deep-black">
