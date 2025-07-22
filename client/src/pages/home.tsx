@@ -17,9 +17,9 @@ export default function Home() {
     queryKey: ["/api/profiles"],
   });
 
-
-
-  const needsProfile = !user?.profile;
+  // Find current user's profile
+  const userProfile = Array.isArray(profiles) ? profiles.find((p: any) => p.userId === user?.id) : undefined;
+  const needsProfile = !userProfile;
 
   return (
     <div className="min-h-screen bg-deep-black text-elegant-white">
@@ -74,7 +74,7 @@ export default function Home() {
                     <Users className="text-accent-blue" size={24} />
                   </div>
                   <div className="text-2xl font-bold text-gradient">
-                    {profiles?.length || 0}
+                    {Array.isArray(profiles) ? profiles.length : 0}
                   </div>
                   <div className="text-gray-400">Active Members</div>
                 </CardContent>
@@ -125,11 +125,12 @@ export default function Home() {
                   New <span className="text-gradient">Members</span>
                 </h2>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {profiles
-                    ?.slice(0, 6)
-                    .map((profile: any) => (
-                      <MemberCard key={profile.id} member={profile} compact />
-                    ))}
+                  {Array.isArray(profiles) && 
+                    profiles
+                      .slice(0, 6)
+                      .map((profile: any) => (
+                        <MemberCard key={profile.id} member={profile} compact />
+                      ))}
                 </div>
               </div>
             </div>
@@ -140,6 +141,8 @@ export default function Home() {
       <CreateProfileDialog
         open={showCreateProfile}
         onClose={() => setShowCreateProfile(false)}
+        profile={userProfile}
+        isEditing={!!userProfile}
       />
     </div>
   );

@@ -71,7 +71,7 @@ export default function Members() {
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-2xl font-semibold">
-                {profiles?.length || 0} Members Found
+                {Array.isArray(profiles) ? profiles.length : 0} Members Found
               </h2>
               <Button
                 variant="outline"
@@ -82,7 +82,7 @@ export default function Members() {
               </Button>
             </div>
 
-            {profiles && profiles.length > 0 ? (
+            {Array.isArray(profiles) && profiles.length > 0 ? (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {profiles.map((profile: any) => (
                   <MemberCard key={profile.id} member={profile} />

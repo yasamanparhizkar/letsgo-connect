@@ -22,7 +22,7 @@ export default function Profile() {
   });
 
   // Find current user's profile
-  const profile = profiles?.find((p: any) => p.userId === user?.id);
+  const profile = Array.isArray(profiles) ? profiles.find((p: any) => p.userId === user?.id) : undefined;
   const hasProfile = !!profile;
   const isLoading = authLoading || profilesLoading;
 
