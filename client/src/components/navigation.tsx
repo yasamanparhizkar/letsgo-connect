@@ -33,9 +33,8 @@ export default function Navigation() {
     <nav className="fixed top-0 w-full z-50 glass-effect">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <Link href="/" className="flex items-center space-x-4">
+          <Link href="/" className="flex items-center">
             <div className="text-2xl font-bold text-gradient">Let's Go</div>
-            <span className="text-gray-400 text-sm">Founders Club</span>
           </Link>
           
           {/* Desktop Navigation */}
