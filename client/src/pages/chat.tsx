@@ -167,8 +167,8 @@ export default function Chat() {
     <div className="min-h-screen bg-deep-black text-elegant-white">
       <Navigation />
       
-      <div className="pt-16 max-w-7xl mx-auto px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 h-[calc(100vh-12rem)]">
+      <div className="pt-16 max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-4 md:py-6 lg:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 h-[calc(100vh-8rem)] md:h-[calc(100vh-10rem)] lg:h-[calc(100vh-12rem)]">
           {/* Online Users Sidebar */}
           <div className="lg:col-span-1">
             <Card className="h-full bg-rich-gray border-accent-blue/20 p-4">
