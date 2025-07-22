@@ -246,7 +246,8 @@ export default function About() {
               </div>
             </div>
           </div>
-        </section> */}
+        </section>
+        */}
 
         {/* Call to Action */}
         <section className="py-20 bg-deep-black">
