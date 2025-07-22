@@ -73,6 +73,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
     onSuccess: () => {
       queryClient.setQueryData(["/api/user"], null);
+      // Force reload to ensure proper navigation
+      window.location.href = "/";
     },
     onError: (error: Error) => {
       toast({

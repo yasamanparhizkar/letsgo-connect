@@ -13,12 +13,13 @@ import { Home, Users, MessageSquare, User, LogOut, Menu, X } from "lucide-react"
 import { useState } from "react";
 
 export default function Navigation() {
-  const { user, isAuthenticated } = useAuth();
+  const { user, logoutMutation } = useAuth();
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const isAuthenticated = !!user;
 
   const handleLogout = () => {
-    window.location.href = "/api/logout";
+    logoutMutation.mutate();
   };
 
   const navItems = [
