@@ -321,7 +321,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
                   lastName: messageWithUser.user.lastName,
                   profileImageUrl: messageWithUser.user.profileImageUrl,
                   message: messageWithUser.message,
-                  timestamp: messageWithUser.createdAt.toISOString()
+                  timestamp: messageWithUser.createdAt?.toISOString() || new Date().toISOString()
                 }
               });
             } catch (error) {
