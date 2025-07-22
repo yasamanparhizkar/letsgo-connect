@@ -4,7 +4,13 @@ import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Users, Target, Rocket, ChevronRight } from "lucide-react";
 
@@ -42,7 +48,9 @@ export default function AuthPage() {
       <div className="flex-1 flex items-center justify-center p-8 bg-background">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-primary mb-2">Welcome to Let's Go</h1>
+            <h1 className="text-3xl font-bold text-primary mb-2">
+              Welcome to Let's Go
+            </h1>
             <p className="text-muted-foreground">Join the founders community</p>
           </div>
 
@@ -68,7 +76,12 @@ export default function AuthPage() {
                         id="username"
                         type="text"
                         value={loginForm.username}
-                        onChange={(e) => setLoginForm({ ...loginForm, username: e.target.value })}
+                        onChange={(e) =>
+                          setLoginForm({
+                            ...loginForm,
+                            username: e.target.value,
+                          })
+                        }
                         required
                       />
                     </div>
@@ -78,7 +91,12 @@ export default function AuthPage() {
                         id="password"
                         type="password"
                         value={loginForm.password}
-                        onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
+                        onChange={(e) =>
+                          setLoginForm({
+                            ...loginForm,
+                            password: e.target.value,
+                          })
+                        }
                         required
                       />
                     </div>
@@ -98,9 +116,7 @@ export default function AuthPage() {
               <Card>
                 <CardHeader>
                   <CardTitle>Create Account</CardTitle>
-                  <CardDescription>
-                    Join the founders community
-                  </CardDescription>
+                  <CardDescription>Join the founders community</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleRegister} className="space-y-4">
@@ -111,7 +127,12 @@ export default function AuthPage() {
                           id="firstName"
                           type="text"
                           value={registerForm.firstName}
-                          onChange={(e) => setRegisterForm({ ...registerForm, firstName: e.target.value })}
+                          onChange={(e) =>
+                            setRegisterForm({
+                              ...registerForm,
+                              firstName: e.target.value,
+                            })
+                          }
                           required
                         />
                       </div>
@@ -121,7 +142,12 @@ export default function AuthPage() {
                           id="lastName"
                           type="text"
                           value={registerForm.lastName}
-                          onChange={(e) => setRegisterForm({ ...registerForm, lastName: e.target.value })}
+                          onChange={(e) =>
+                            setRegisterForm({
+                              ...registerForm,
+                              lastName: e.target.value,
+                            })
+                          }
                           required
                         />
                       </div>
@@ -132,7 +158,12 @@ export default function AuthPage() {
                         id="email"
                         type="email"
                         value={registerForm.email}
-                        onChange={(e) => setRegisterForm({ ...registerForm, email: e.target.value })}
+                        onChange={(e) =>
+                          setRegisterForm({
+                            ...registerForm,
+                            email: e.target.value,
+                          })
+                        }
                         required
                       />
                     </div>
@@ -142,7 +173,12 @@ export default function AuthPage() {
                         id="username"
                         type="text"
                         value={registerForm.username}
-                        onChange={(e) => setRegisterForm({ ...registerForm, username: e.target.value })}
+                        onChange={(e) =>
+                          setRegisterForm({
+                            ...registerForm,
+                            username: e.target.value,
+                          })
+                        }
                         required
                       />
                     </div>
@@ -152,7 +188,12 @@ export default function AuthPage() {
                         id="password"
                         type="password"
                         value={registerForm.password}
-                        onChange={(e) => setRegisterForm({ ...registerForm, password: e.target.value })}
+                        onChange={(e) =>
+                          setRegisterForm({
+                            ...registerForm,
+                            password: e.target.value,
+                          })
+                        }
                         required
                       />
                     </div>
@@ -161,7 +202,9 @@ export default function AuthPage() {
                       className="w-full"
                       disabled={registerMutation.isPending}
                     >
-                      {registerMutation.isPending ? "Creating account..." : "Create Account"}
+                      {registerMutation.isPending
+                        ? "Creating account..."
+                        : "Create Account"}
                     </Button>
                   </form>
                 </CardContent>
@@ -182,7 +225,8 @@ export default function AuthPage() {
               Build. Connect. Grow.
             </h2>
             <p className="text-lg text-muted-foreground mb-8">
-              Join an exclusive community of founders, entrepreneurs, and innovators shaping the future.
+              Join a community of founders, entrepreneurs, and innovators
+              shaping the future.
             </p>
           </div>
 
@@ -194,7 +238,8 @@ export default function AuthPage() {
               <div className="text-left">
                 <h3 className="font-semibold mb-2">Network with Founders</h3>
                 <p className="text-sm text-muted-foreground">
-                  Connect with like-minded entrepreneurs and build lasting partnerships.
+                  Connect with like-minded entrepreneurs and build lasting
+                  partnerships.
                 </p>
               </div>
             </div>
@@ -206,7 +251,8 @@ export default function AuthPage() {
               <div className="text-left">
                 <h3 className="font-semibold mb-2">Share & Get Feedback</h3>
                 <p className="text-sm text-muted-foreground">
-                  Present your ideas and receive valuable insights from experienced founders.
+                  Present your ideas and receive valuable insights from
+                  experienced founders.
                 </p>
               </div>
             </div>
@@ -218,7 +264,8 @@ export default function AuthPage() {
               <div className="text-left">
                 <h3 className="font-semibold mb-2">Accelerate Growth</h3>
                 <p className="text-sm text-muted-foreground">
-                  Access resources, mentorship, and opportunities to scale your startup.
+                  Access resources, mentorship, and opportunities to scale your
+                  startup.
                 </p>
               </div>
             </div>
