@@ -27,22 +27,17 @@ function Router() {
 
   return (
     <Switch>
-      {!user ? (
+      <Route path="/" component={user ? Home : Landing} />
+      <Route path="/auth" component={Auth} />
+      {user && (
         <>
-          <Route path="/" component={Landing} />
-          <Route path="/auth" component={Auth} />
-          <Route component={NotFound} />
-        </>
-      ) : (
-        <>
-          <Route path="/" component={Home} />
           <Route path="/about" component={About} />
           <Route path="/members" component={Members} />
           <Route path="/forums" component={Forums} />
           <Route path="/profile" component={Profile} />
-          <Route component={NotFound} />
         </>
       )}
+      <Route component={NotFound} />
     </Switch>
   );
 }
