@@ -5,7 +5,7 @@ import {
   forumPosts,
   forumReplies,
   type User,
-  type UpsertUser,
+  type InsertUser,
   type MemberProfile,
   type InsertMemberProfile,
   type ForumCategory,
@@ -18,14 +18,16 @@ import { db } from "./db";
 import { eq, desc, asc, ilike, count, sql } from "drizzle-orm";
 
 export interface IStorage {
-  // User operations (mandatory for Replit Auth)
-  getUser(id: string): Promise<User | undefined>;
-  upsertUser(user: UpsertUser): Promise<User>;
+  // User operations for username/password auth
+  getUser(id: number): Promise<User | undefined>;
+  getUserByUsername(username: string): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
+  createUser(user: InsertUser): Promise<User>;
   
   // Member profile operations
-  getMemberProfile(userId: string): Promise<MemberProfile | undefined>;
+  getMemberProfile(userId: number): Promise<MemberProfile | undefined>;
   createMemberProfile(profile: InsertMemberProfile): Promise<MemberProfile>;
-  updateMemberProfile(userId: string, profile: Partial<InsertMemberProfile>): Promise<MemberProfile | undefined>;
+  updateMemberProfile(userId: number, profile: Partial<InsertMemberProfile>): Promise<MemberProfile | undefined>;
   getAllMemberProfiles(): Promise<(MemberProfile & { user: User })[]>;
   searchMemberProfiles(query: string): Promise<(MemberProfile & { user: User })[]>;
   
@@ -42,29 +44,32 @@ export interface IStorage {
 }
 
 export class DatabaseStorage implements IStorage {
-  // User operations (mandatory for Replit Auth)
-  async getUser(id: string): Promise<User | undefined> {
+  // User operations for username/password auth
+  async getUser(id: number): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
     return user;
   }
 
-  async upsertUser(userData: UpsertUser): Promise<User> {
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user;
+  }
+
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.email, email));
+    return user;
+  }
+
+  async createUser(userData: InsertUser): Promise<User> {
     const [user] = await db
       .insert(users)
       .values(userData)
-      .onConflictDoUpdate({
-        target: users.id,
-        set: {
-          ...userData,
-          updatedAt: new Date(),
-        },
-      })
       .returning();
     return user;
   }
 
   // Member profile operations
-  async getMemberProfile(userId: string): Promise<MemberProfile | undefined> {
+  async getMemberProfile(userId: number): Promise<MemberProfile | undefined> {
     const [profile] = await db
       .select()
       .from(memberProfiles)
@@ -80,7 +85,7 @@ export class DatabaseStorage implements IStorage {
     return newProfile;
   }
 
-  async updateMemberProfile(userId: string, profile: Partial<InsertMemberProfile>): Promise<MemberProfile | undefined> {
+  async updateMemberProfile(userId: number, profile: Partial<InsertMemberProfile>): Promise<MemberProfile | undefined> {
     const [updatedProfile] = await db
       .update(memberProfiles)
       .set({ ...profile, updatedAt: new Date() })

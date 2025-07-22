@@ -25,11 +25,12 @@ export const sessions = pgTable(
   (table) => [index("IDX_session_expire").on(table.expire)],
 );
 
-// User storage table.
-// (IMPORTANT) This table is mandatory for Replit Auth, don't drop it.
+// User storage table for username/password authentication
 export const users = pgTable("users", {
-  id: varchar("id").primaryKey().notNull(),
-  email: varchar("email").unique(),
+  id: serial("id").primaryKey(),
+  username: varchar("username").unique().notNull(),
+  email: varchar("email").unique().notNull(),
+  password: varchar("password").notNull(),
   firstName: varchar("first_name"),
   lastName: varchar("last_name"),
   profileImageUrl: varchar("profile_image_url"),
@@ -40,7 +41,7 @@ export const users = pgTable("users", {
 // Extended member profiles
 export const memberProfiles = pgTable("member_profiles", {
   id: serial("id").primaryKey(),
-  userId: varchar("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   title: varchar("title"),
   bio: text("bio"),
   company: varchar("company"),
@@ -70,7 +71,7 @@ export const forumCategories = pgTable("forum_categories", {
 // Forum posts
 export const forumPosts = pgTable("forum_posts", {
   id: serial("id").primaryKey(),
-  userId: varchar("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   categoryId: integer("category_id").references(() => forumCategories.id),
   title: varchar("title").notNull(),
   content: text("content").notNull(),
@@ -84,7 +85,7 @@ export const forumPosts = pgTable("forum_posts", {
 export const forumReplies = pgTable("forum_replies", {
   id: serial("id").primaryKey(),
   postId: integer("post_id").notNull().references(() => forumPosts.id, { onDelete: "cascade" }),
-  userId: varchar("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   content: text("content").notNull(),
   likes: integer("likes").default(0),
   createdAt: timestamp("created_at").defaultNow(),
@@ -133,39 +134,24 @@ export const forumRepliesRelations = relations(forumReplies, ({ one }) => ({
 }));
 
 // Types
-export type UpsertUser = typeof users.$inferInsert;
+// Insert and select types
+export const insertUserSchema = createInsertSchema(users).omit({ id: true, createdAt: true, updatedAt: true });
+export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 
+export const insertMemberProfileSchema = createInsertSchema(memberProfiles).omit({ id: true, createdAt: true, updatedAt: true });
+export type InsertMemberProfile = z.infer<typeof insertMemberProfileSchema>;
 export type MemberProfile = typeof memberProfiles.$inferSelect;
-export type InsertMemberProfile = typeof memberProfiles.$inferInsert;
+
+export const insertForumPostSchema = createInsertSchema(forumPosts).omit({ id: true, createdAt: true, updatedAt: true, likes: true, replyCount: true });
+export type InsertForumPost = z.infer<typeof insertForumPostSchema>;
+export type ForumPost = typeof forumPosts.$inferSelect;
+
+export const insertForumReplySchema = createInsertSchema(forumReplies).omit({ id: true, createdAt: true, updatedAt: true, likes: true });
+export type InsertForumReply = z.infer<typeof insertForumReplySchema>;
+export type ForumReply = typeof forumReplies.$inferSelect;
+
+
 
 export type ForumCategory = typeof forumCategories.$inferSelect;
 export type InsertForumCategory = typeof forumCategories.$inferInsert;
-
-export type ForumPost = typeof forumPosts.$inferSelect;
-export type InsertForumPost = typeof forumPosts.$inferInsert;
-
-export type ForumReply = typeof forumReplies.$inferSelect;
-export type InsertForumReply = typeof forumReplies.$inferInsert;
-
-// Schemas
-export const insertMemberProfileSchema = createInsertSchema(memberProfiles).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export const insertForumPostSchema = createInsertSchema(forumPosts).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-  likes: true,
-  replyCount: true,
-});
-
-export const insertForumReplySchema = createInsertSchema(forumReplies).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-  likes: true,
-});

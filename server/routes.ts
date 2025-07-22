@@ -1,13 +1,21 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { setupAuth, isAuthenticated } from "./replitAuth";
+import { setupAuth } from "./auth";
 import { insertMemberProfileSchema, insertForumPostSchema, insertForumReplySchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
-  await setupAuth(app);
+  setupAuth(app);
+
+  // Middleware to check authentication
+  const requireAuth = (req: any, res: any, next: any) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    next();
+  };
 
   // Initialize forum categories
   const categories = await storage.getForumCategories();
@@ -44,10 +52,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   }
 
-  // Auth routes
-  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
+  // User route
+  app.get('/api/user', requireAuth, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const user = await storage.getUser(userId);
       const profile = await storage.getMemberProfile(userId);
       res.json({ ...user, profile });
@@ -58,9 +66,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Member profile routes
-  app.post('/api/profiles', isAuthenticated, async (req: any, res) => {
+  app.post('/api/profiles', requireAuth, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const profileData = insertMemberProfileSchema.parse({
         ...req.body,
         userId
@@ -126,9 +134,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/forum/posts', isAuthenticated, async (req: any, res) => {
+  app.post('/api/forum/posts', requireAuth, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const postData = insertForumPostSchema.parse({
         ...req.body,
         userId
@@ -171,9 +179,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/forum/posts/:id/replies', isAuthenticated, async (req: any, res) => {
+  app.post('/api/forum/posts/:id/replies', requireAuth, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const postId = parseInt(req.params.id);
       const replyData = insertForumReplySchema.parse({
         ...req.body,
@@ -193,7 +201,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/forum/posts/:id/like', isAuthenticated, async (req, res) => {
+  app.post('/api/forum/posts/:id/like', requireAuth, async (req, res) => {
     try {
       const postId = parseInt(req.params.id);
       await storage.likeForumPost(postId);
@@ -204,7 +212,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/forum/replies/:id/like', isAuthenticated, async (req, res) => {
+  app.post('/api/forum/replies/:id/like', requireAuth, async (req, res) => {
     try {
       const replyId = parseInt(req.params.id);
       await storage.likeForumReply(replyId);
