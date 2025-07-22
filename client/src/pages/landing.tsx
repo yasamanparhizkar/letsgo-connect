@@ -15,18 +15,17 @@ export default function Landing() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4">
               <div className="text-2xl font-bold text-gradient">Let's Go</div>
-              <span className="text-gray-400 text-sm">Founders Club</span>
             </div>
-            
+
             <div className="flex items-center space-x-4">
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="ghost"
                 className="text-gray-400 hover:text-elegant-white"
                 onClick={handleLogin}
               >
                 Sign In
               </Button>
-              <Button 
+              <Button
                 onClick={handleLogin}
                 className="px-6 py-2 bg-accent-blue text-white rounded-lg hover:bg-blue-600 transition-all duration-200 transform hover:scale-105"
               >
@@ -43,15 +42,15 @@ export default function Landing() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="animate-slide-up">
               <h1 className="text-5xl lg:text-7xl font-bold font-playfair mb-6">
-                Where Founders
+                Where Builders
                 <span className="text-gradient block">Connect & Grow</span>
               </h1>
               <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-                Join an exclusive community of entrepreneurs, innovators, and changemakers. 
-                Share ideas, build connections, and accelerate your startup journey.
+                Join a community of innovators and changemakers. Find your
+                tribe, share ideas, and let's build the future together!
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button 
+                <Button
                   onClick={handleLogin}
                   size="lg"
                   className="px-8 py-4 bg-accent-blue text-white rounded-xl hover:bg-blue-600 transition-all duration-200 transform hover:scale-105 font-medium"
@@ -61,15 +60,18 @@ export default function Landing() {
                 </Button>
               </div>
             </div>
-            
+
             <div className="relative animate-fade-in">
-              <img 
-                src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" 
-                alt="Diverse entrepreneurs networking in modern workspace" 
+              <img
+                src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
+                alt="Diverse entrepreneurs networking in modern workspace"
                 className="rounded-2xl shadow-2xl w-full"
               />
               <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-accent-blue rounded-full opacity-20 animate-float"></div>
-              <div className="absolute -top-6 -right-6 w-20 h-20 bg-success-green rounded-full opacity-30 animate-float" style={{animationDelay: '1s'}}></div>
+              <div
+                className="absolute -top-6 -right-6 w-20 h-20 bg-success-green rounded-full opacity-30 animate-float"
+                style={{ animationDelay: "1s" }}
+              ></div>
             </div>
           </div>
         </div>
@@ -83,33 +85,43 @@ export default function Landing() {
               About <span className="text-gradient">Let's Go</span>
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              We're building the next generation platform for founders to connect, collaborate, and create impact together.
+              We're building a community for Canadian builders to connect,
+              collaborate, and create impact together.
             </p>
           </div>
-          
+
           <div className="grid lg:grid-cols-3 gap-8 mb-16">
             <div className="bg-dark-gray p-8 rounded-2xl hover:bg-opacity-80 transition-all duration-300 group">
               <div className="w-16 h-16 bg-accent-blue bg-opacity-20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-200">
                 <Users className="text-2xl text-accent-blue" size={32} />
               </div>
               <h3 className="text-2xl font-semibold mb-4">Network</h3>
-              <p className="text-gray-300">Connect with like-minded founders, investors, and industry experts from around the globe.</p>
+              <p className="text-gray-300">
+                Connect with like-minded builders, students, and professionals.
+                Find your team, mentors, and investors.
+              </p>
             </div>
-            
+
             <div className="bg-dark-gray p-8 rounded-2xl hover:bg-opacity-80 transition-all duration-300 group">
               <div className="w-16 h-16 bg-success-green bg-opacity-20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-200">
                 <Lightbulb className="text-2xl text-success-green" size={32} />
               </div>
               <h3 className="text-2xl font-semibold mb-4">Innovate</h3>
-              <p className="text-gray-300">Share breakthrough ideas, get feedback, and collaborate on projects that change the world.</p>
+              <p className="text-gray-300">
+                Share breakthrough ideas, get feedback, and collaborate on
+                projects that change the world.
+              </p>
             </div>
-            
+
             <div className="bg-dark-gray p-8 rounded-2xl hover:bg-opacity-80 transition-all duration-300 group">
               <div className="w-16 h-16 bg-purple-500 bg-opacity-20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-200">
                 <TrendingUp className="text-2xl text-purple-400" size={32} />
               </div>
               <h3 className="text-2xl font-semibold mb-4">Grow</h3>
-              <p className="text-gray-300">Access resources, mentorship, and opportunities to scale your startup exponentially.</p>
+              <p className="text-gray-300">
+                Access resources, mentorship, and opportunities to grow your
+                career and business.
+              </p>
             </div>
           </div>
         </div>
@@ -122,10 +134,11 @@ export default function Landing() {
             Ready to <span className="text-gradient">Go?</span>
           </h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Join thousands of founders who are building the future. Your next breakthrough is just one connection away.
+            Join thousands of founders who are building the future. Your next
+            breakthrough is just one connection away.
           </p>
-          
-          <Button 
+
+          <Button
             onClick={handleLogin}
             size="lg"
             className="px-8 py-4 bg-accent-blue text-white rounded-xl hover:bg-blue-600 transition-all duration-200 transform hover:scale-105 font-medium text-lg"
@@ -133,8 +146,8 @@ export default function Landing() {
             <Rocket className="mr-2" size={20} />
             Join the Club
           </Button>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center mt-12">
+
+          {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center mt-12">
             <div>
               <div className="text-3xl font-bold text-gradient">5,000+</div>
               <div className="text-gray-400">Active Members</div>
@@ -150,8 +163,8 @@ export default function Landing() {
             <div>
               <div className="text-3xl font-bold text-gradient">50+</div>
               <div className="text-gray-400">Cities Worldwide</div>
-            </div>
-          </div>
+            </div> */}
+          {/* </div> */}
         </div>
       </section>
     </div>
