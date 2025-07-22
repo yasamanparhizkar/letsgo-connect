@@ -58,7 +58,7 @@ export default function MemberCard({ member, compact = false }: MemberCardProps)
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
-              <h3 className="text-lg font-semibold truncate">{fullName}</h3>
+              <h3 className="text-lg font-semibold truncate text-white">{fullName}</h3>
               <p className="text-gray-400 text-sm truncate">{member.title}</p>
               <div className="flex items-center space-x-1 mt-1">
                 <div className={`w-2 h-2 ${statusColors[randomStatus as keyof typeof statusColors]} rounded-full`}></div>
@@ -82,7 +82,7 @@ export default function MemberCard({ member, compact = false }: MemberCardProps)
             </AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
-            <h3 className="text-xl font-semibold">{fullName}</h3>
+            <h3 className="text-xl font-semibold text-white">{fullName}</h3>
             <p className="text-gray-400">{member.title}</p>
             <div className="flex items-center space-x-1 mt-1">
               <div className={`w-2 h-2 ${statusColors[randomStatus as keyof typeof statusColors]} rounded-full`}></div>

@@ -36,7 +36,7 @@ export default function Members() {
   return (
     <div className="min-h-screen bg-deep-black text-elegant-white">
       <Navigation />
-      
+
       <div className="pt-16">
         {/* Header Section */}
         <section className="py-12 hero-gradient">
@@ -45,19 +45,23 @@ export default function Members() {
               Meet Our <span className="text-gradient">Founders</span>
             </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-              Connect with amazing entrepreneurs from diverse backgrounds and industries.
+              Connect with amazing entrepreneurs from diverse backgrounds and
+              industries.
             </p>
-            
+
             {/* Search Bar */}
             <form onSubmit={handleSearch} className="max-w-md mx-auto relative">
-              <Input 
-                type="text" 
-                placeholder="Search founders by name, industry, or expertise..." 
+              <Input
+                type="text"
+                placeholder="Search founders by name, industry, or expertise..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-12 pr-4 py-4 bg-dark-gray border border-gray-600 rounded-xl text-elegant-white placeholder-gray-400 focus:border-accent-blue focus:outline-none transition-colors duration-200"
               />
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <Search
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+                size={20}
+              />
             </form>
           </div>
         </section>
@@ -69,7 +73,10 @@ export default function Members() {
               <h2 className="text-2xl font-semibold">
                 {profiles?.length || 0} Members Found
               </h2>
-              <Button variant="outline" className="border-gray-600 text-gray-300 hover:bg-dark-gray">
+              <Button
+                variant="outline"
+                className="border-gray-600 text-gray-300 hover:bg-dark-gray"
+              >
                 <Filter className="mr-2" size={16} />
                 Filters
               </Button>
@@ -88,9 +95,13 @@ export default function Members() {
                     {searchQuery ? (
                       <>
                         <Search className="mx-auto mb-4" size={48} />
-                        <h3 className="text-xl font-semibold mb-2">No members found</h3>
-                        <p>Try adjusting your search terms or browse all members.</p>
-                        <Button 
+                        <h3 className="text-xl font-semibold mb-2">
+                          No members found
+                        </h3>
+                        <p>
+                          Try adjusting your search terms or browse all members.
+                        </p>
+                        <Button
                           className="mt-4"
                           onClick={() => setSearchQuery("")}
                           variant="outline"
@@ -100,8 +111,13 @@ export default function Members() {
                       </>
                     ) : (
                       <>
-                        <h3 className="text-xl font-semibold mb-2">No members yet</h3>
-                        <p>Be the first to create a profile and join the community!</p>
+                        <h3 className="text-xl font-semibold mb-2">
+                          No members yet
+                        </h3>
+                        <p>
+                          Be the first to create a profile and join the
+                          community!
+                        </p>
                       </>
                     )}
                   </div>
@@ -119,32 +135,34 @@ export default function Members() {
                 Community <span className="text-gradient">Stats</span>
               </h2>
             </div>
-            
+
             <div className="grid md:grid-cols-4 gap-6">
               <Card className="bg-dark-gray border-gray-600">
                 <CardContent className="p-6 text-center">
-                  <div className="text-2xl font-bold text-gradient">{profiles?.length || 0}</div>
+                  <div className="text-2xl font-bold text-gradient">
+                    {profiles?.length || 0}
+                  </div>
                   <div className="text-gray-400">Total Members</div>
                 </CardContent>
               </Card>
-              
+
               <Card className="bg-dark-gray border-gray-600">
                 <CardContent className="p-6 text-center">
-                  <div className="text-2xl font-bold text-gradient">25+</div>
+                  <div className="text-2xl font-bold text-gradient">1+</div>
                   <div className="text-gray-400">Industries</div>
                 </CardContent>
               </Card>
-              
+
               <Card className="bg-dark-gray border-gray-600">
                 <CardContent className="p-6 text-center">
-                  <div className="text-2xl font-bold text-gradient">15+</div>
+                  <div className="text-2xl font-bold text-gradient">1+</div>
                   <div className="text-gray-400">Countries</div>
                 </CardContent>
               </Card>
-              
+
               <Card className="bg-dark-gray border-gray-600">
                 <CardContent className="p-6 text-center">
-                  <div className="text-2xl font-bold text-gradient">$500M+</div>
+                  <div className="text-2xl font-bold text-gradient">$0</div>
                   <div className="text-gray-400">Funds Raised</div>
                 </CardContent>
               </Card>
