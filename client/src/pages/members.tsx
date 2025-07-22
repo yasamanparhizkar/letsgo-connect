@@ -11,7 +11,14 @@ export default function Members() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const { data: profiles, isLoading } = useQuery({
-    queryKey: ["/api/profiles", searchQuery && { search: searchQuery }],
+    queryKey: ["/api/profiles", { search: searchQuery }],
+    queryFn: () => {
+      const params = new URLSearchParams();
+      if (searchQuery.trim()) {
+        params.append('search', searchQuery.trim());
+      }
+      return fetch(`/api/profiles?${params.toString()}`).then(res => res.json());
+    },
   });
 
   const handleSearch = (e: React.FormEvent) => {
