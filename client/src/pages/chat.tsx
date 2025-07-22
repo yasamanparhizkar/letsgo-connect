@@ -168,24 +168,24 @@ export default function Chat() {
       <Navigation />
       
       <div className="pt-16 max-w-7xl mx-auto px-2 md:px-6 lg:px-8 py-2 md:py-6 lg:py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-8 h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)] lg:h-[calc(100vh-12rem)]">
+        <div className="flex flex-col lg:grid lg:grid-cols-4 gap-4 lg:gap-8 h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)] lg:h-[calc(100vh-12rem)]">
           {/* Online Users Sidebar */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 h-32 lg:h-full">
             <Card className="h-full bg-rich-gray border-accent-blue/20 p-4">
-              <div className="flex items-center space-x-2 mb-4">
-                <Users className="h-5 w-5 text-accent-blue" />
-                <h3 className="font-semibold text-elegant-white">Online Now</h3>
-                <Badge variant="secondary" className="bg-accent-blue/10 text-accent-blue">
+              <div className="flex items-center space-x-2 mb-3">
+                <Users className="h-4 w-4 text-accent-blue" />
+                <h3 className="font-semibold text-elegant-white text-sm">Online Now</h3>
+                <Badge variant="secondary" className="bg-accent-blue/10 text-accent-blue text-xs">
                   {onlineUsers.length}
                 </Badge>
               </div>
-              <ScrollArea className="h-[calc(100%-4rem)]">
-                <div className="space-y-2">
+              <div className="h-[calc(100%-2.5rem)] overflow-y-auto">
+                <div className="space-y-1">
                   {onlineUsers.map((user) => (
-                    <div key={user.userId} className="flex items-center space-x-3 p-2 rounded-lg bg-soft-gray/30">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <div key={user.userId} className="flex items-center space-x-2 p-1.5 rounded bg-soft-gray/30">
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex-shrink-0"></div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-elegant-white truncate">
+                        <p className="text-xs font-medium text-elegant-white truncate">
                           {user.firstName && user.lastName 
                             ? `${user.firstName} ${user.lastName}`
                             : user.username
@@ -198,12 +198,12 @@ export default function Chat() {
                     </div>
                   ))}
                 </div>
-              </ScrollArea>
+              </div>
             </Card>
           </div>
 
           {/* Chat Area */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-3 flex-1">
             <Card className="h-full bg-rich-gray border-accent-blue/20 flex flex-col">
               {/* Chat Header */}
               <div className="p-4 border-b border-accent-blue/20">
