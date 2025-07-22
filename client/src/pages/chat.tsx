@@ -162,7 +162,7 @@ export default function Chat() {
       <Navigation />
       
       <div className="pt-16 max-w-7xl mx-auto px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 h-[calc(100vh-8rem)]">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 h-[calc(100vh-12rem)]">
           {/* Online Users Sidebar */}
           <div className="lg:col-span-1">
             <Card className="h-full bg-rich-gray border-accent-blue/20 p-4">
@@ -173,7 +173,7 @@ export default function Chat() {
                   {onlineUsers.length}
                 </Badge>
               </div>
-              <ScrollArea className="h-[calc(100%-3rem)]">
+              <ScrollArea className="h-[calc(100%-4rem)]">
                 <div className="space-y-2">
                   {onlineUsers.map((user) => (
                     <div key={user.userId} className="flex items-center space-x-3 p-2 rounded-lg bg-soft-gray/30">
@@ -218,34 +218,36 @@ export default function Chat() {
               </div>
 
               {/* Messages */}
-              <ScrollArea className="flex-1 p-4">
-                <div className="space-y-4">
-                  {messages.map((message) => (
-                    <div key={message.id} className="flex space-x-3">
-                      <Avatar className="h-8 w-8 flex-shrink-0">
-                        <AvatarImage src={message.profileImageUrl} />
-                        <AvatarFallback className="bg-accent-blue/10 text-accent-blue text-xs">
-                          {getInitials(message)}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-baseline space-x-2">
-                          <p className="text-sm font-medium text-elegant-white">
-                            {getDisplayName(message)}
+              <div className="flex-1 overflow-hidden">
+                <ScrollArea className="h-full p-4">
+                  <div className="space-y-4">
+                    {messages.map((message) => (
+                      <div key={message.id} className="flex space-x-3">
+                        <Avatar className="h-8 w-8 flex-shrink-0">
+                          <AvatarImage src={message.profileImageUrl} />
+                          <AvatarFallback className="bg-accent-blue/10 text-accent-blue text-xs">
+                            {getInitials(message)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-baseline space-x-2">
+                            <p className="text-sm font-medium text-elegant-white">
+                              {getDisplayName(message)}
+                            </p>
+                            <span className="text-xs text-gray-400">
+                              {formatTime(message.timestamp)}
+                            </span>
+                          </div>
+                          <p className="text-sm text-gray-300 mt-1 break-words">
+                            {message.message}
                           </p>
-                          <span className="text-xs text-gray-400">
-                            {formatTime(message.timestamp)}
-                          </span>
                         </div>
-                        <p className="text-sm text-gray-300 mt-1 break-words">
-                          {message.message}
-                        </p>
                       </div>
-                    </div>
-                  ))}
-                  <div ref={messagesEndRef} />
-                </div>
-              </ScrollArea>
+                    ))}
+                    <div ref={messagesEndRef} />
+                  </div>
+                </ScrollArea>
+              </div>
 
               {/* Message Input */}
               <div className="p-4 border-t border-accent-blue/20">

@@ -42,7 +42,7 @@ export default function Members() {
         <section className="py-12 hero-gradient">
           <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
             <h1 className="text-4xl lg:text-6xl font-bold font-playfair mb-6">
-              Meet Our <span className="text-gradient">Founders</span>
+              Meet Our <span className="text-gradient">Builders</span>
             </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
               Connect with amazing entrepreneurs from diverse backgrounds and
