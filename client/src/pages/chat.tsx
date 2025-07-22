@@ -255,7 +255,7 @@ export default function Chat() {
                     onChange={(e) => setNewMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Type your message..."
-                    className="flex-1 bg-soft-gray border-accent-blue/20 text-elegant-white placeholder-gray-400"
+                    className="flex-1 bg-gray-800 border-accent-blue/20 text-white placeholder-gray-400 focus:bg-gray-700"
                     disabled={!isConnected}
                   />
                   <Button
