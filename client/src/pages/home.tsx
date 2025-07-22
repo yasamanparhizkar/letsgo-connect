@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Navigation from "@/components/navigation";
 import MemberCard from "@/components/member-card";
-import ForumPost from "@/components/forum-post";
+
 import CreateProfileDialog from "@/components/create-profile-dialog";
 import { Users, MessageSquare, Calendar, TrendingUp } from "lucide-react";
 import { useState } from "react";
@@ -17,9 +17,7 @@ export default function Home() {
     queryKey: ["/api/profiles"],
   });
 
-  const { data: posts } = useQuery({
-    queryKey: ["/api/forum/posts"],
-  });
+
 
   const needsProfile = !user?.profile;
 
@@ -88,9 +86,9 @@ export default function Home() {
                     <MessageSquare className="text-success-green" size={24} />
                   </div>
                   <div className="text-2xl font-bold text-gradient">
-                    {posts?.length || 0}
+                    Live
                   </div>
-                  <div className="text-gray-400">Forum Posts</div>
+                  <div className="text-gray-400">Chat Room</div>
                 </CardContent>
               </Card>
 
@@ -120,31 +118,17 @@ export default function Home() {
         {/* Recent Activity */}
         <section className="py-12 bg-deep-black">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="grid lg:grid-cols-2 gap-12">
+            <div className="max-w-4xl mx-auto">
               {/* Recent Members */}
               <div>
-                <h2 className="text-3xl font-bold font-playfair mb-6">
+                <h2 className="text-3xl font-bold font-playfair mb-6 text-center">
                   New <span className="text-gradient">Members</span>
                 </h2>
-                <div className="space-y-4">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {profiles
-                    ?.slice(0, 3)
+                    ?.slice(0, 6)
                     .map((profile: any) => (
                       <MemberCard key={profile.id} member={profile} compact />
-                    ))}
-                </div>
-              </div>
-
-              {/* Recent Posts */}
-              <div>
-                <h2 className="text-3xl font-bold font-playfair mb-6">
-                  Recent <span className="text-gradient">Discussions</span>
-                </h2>
-                <div className="space-y-4">
-                  {posts
-                    ?.slice(0, 3)
-                    .map((post: any) => (
-                      <ForumPost key={post.id} post={post} compact />
                     ))}
                 </div>
               </div>
