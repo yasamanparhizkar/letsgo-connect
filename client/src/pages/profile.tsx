@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import Navigation from "@/components/navigation";
@@ -10,12 +11,23 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Edit, MapPin, Globe, Linkedin, Twitter, Building, Users } from "lucide-react";
 
 export default function Profile() {
-  const { user, isAuthenticated, isLoading } = useAuth();
+  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const { toast } = useToast();
   const [showEditProfile, setShowEditProfile] = useState(false);
 
+  // Fetch user's profile
+  const { data: profiles, isLoading: profilesLoading } = useQuery({
+    queryKey: ["/api/profiles"],
+    enabled: !!user?.id, // Only fetch when user is loaded
+  });
+
+  // Find current user's profile
+  const profile = profiles?.find((p: any) => p.userId === user?.id);
+  const hasProfile = !!profile;
+  const isLoading = authLoading || profilesLoading;
+
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
+    if (!authLoading && !isAuthenticated) {
       toast({
         title: "Unauthorized",
         description: "You are logged out. Logging in again...",
@@ -26,7 +38,7 @@ export default function Profile() {
       }, 500);
       return;
     }
-  }, [isAuthenticated, isLoading, toast]);
+  }, [isAuthenticated, authLoading, toast]);
 
   if (isLoading) {
     return (
@@ -42,9 +54,6 @@ export default function Profile() {
     );
   }
 
-  const profile = user?.profile;
-  const hasProfile = !!profile;
-
   return (
     <div className="min-h-screen bg-deep-black text-elegant-white">
       <Navigation />
@@ -57,7 +66,7 @@ export default function Profile() {
               <div className="max-w-4xl mx-auto px-6 lg:px-8">
                 <div className="flex flex-col md:flex-row items-start md:items-center gap-8">
                   <Avatar className="w-32 h-32 border-4 border-accent-blue">
-                    <AvatarImage src={user?.profileImageUrl} alt={`${user?.firstName} ${user?.lastName}`} />
+                    <AvatarImage src={user?.profileImageUrl || ""} alt={`${user?.firstName} ${user?.lastName}`} />
                     <AvatarFallback className="bg-dark-gray text-elegant-white text-2xl">
                       {user?.firstName?.[0]}{user?.lastName?.[0]}
                     </AvatarFallback>
@@ -134,7 +143,7 @@ export default function Profile() {
                         </CardHeader>
                         <CardContent>
                           <div className="flex flex-wrap gap-2">
-                            {profile.skills.map((skill, index) => (
+                            {profile.skills.map((skill: string, index: number) => (
                               <Badge key={index} variant="secondary" className="bg-accent-blue bg-opacity-20 text-accent-blue">
                                 {skill}
                               </Badge>
@@ -232,7 +241,7 @@ export default function Profile() {
             <div className="max-w-2xl mx-auto px-6 lg:px-8 text-center">
               <div className="mb-8">
                 <Avatar className="w-24 h-24 mx-auto mb-6 border-4 border-accent-blue">
-                  <AvatarImage src={user?.profileImageUrl} alt={`${user?.firstName} ${user?.lastName}`} />
+                  <AvatarImage src={user?.profileImageUrl || ""} alt={`${user?.firstName} ${user?.lastName}`} />
                   <AvatarFallback className="bg-dark-gray text-elegant-white text-xl">
                     {user?.firstName?.[0]}{user?.lastName?.[0]}
                   </AvatarFallback>
