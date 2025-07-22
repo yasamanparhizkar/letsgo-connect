@@ -37,7 +37,13 @@ export default function Chat() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ 
+        behavior: "smooth",
+        block: "end",
+        inline: "nearest"
+      });
+    }
   };
 
   useEffect(() => {
@@ -218,8 +224,8 @@ export default function Chat() {
               </div>
 
               {/* Messages */}
-              <div className="flex-1 overflow-hidden">
-                <ScrollArea className="h-full p-4">
+              <div className="flex-1 overflow-hidden relative">
+                <div className="absolute inset-0 overflow-y-auto p-4 scroll-smooth">
                   <div className="space-y-4">
                     {messages.map((message) => (
                       <div key={message.id} className="flex space-x-3">
@@ -244,9 +250,9 @@ export default function Chat() {
                         </div>
                       </div>
                     ))}
-                    <div ref={messagesEndRef} />
+                    <div ref={messagesEndRef} className="h-1" />
                   </div>
-                </ScrollArea>
+                </div>
               </div>
 
               {/* Message Input */}
