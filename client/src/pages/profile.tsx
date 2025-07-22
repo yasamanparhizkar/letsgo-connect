@@ -114,7 +114,7 @@ export default function Profile() {
                   <div className="lg:col-span-2 space-y-6">
                     <Card className="bg-dark-gray border-gray-600">
                       <CardHeader>
-                        <CardTitle>About</CardTitle>
+                        <CardTitle className="text-elegant-white">About</CardTitle>
                       </CardHeader>
                       <CardContent>
                         <p className="text-gray-300 leading-relaxed">
@@ -126,7 +126,7 @@ export default function Profile() {
                     {profile.lookingFor && (
                       <Card className="bg-dark-gray border-gray-600">
                         <CardHeader>
-                          <CardTitle>Looking For</CardTitle>
+                          <CardTitle className="text-elegant-white">Looking For</CardTitle>
                         </CardHeader>
                         <CardContent>
                           <p className="text-gray-300 leading-relaxed">
@@ -139,7 +139,7 @@ export default function Profile() {
                     {profile.skills && profile.skills.length > 0 && (
                       <Card className="bg-dark-gray border-gray-600">
                         <CardHeader>
-                          <CardTitle>Skills & Expertise</CardTitle>
+                          <CardTitle className="text-elegant-white">Skills & Expertise</CardTitle>
                         </CardHeader>
                         <CardContent>
                           <div className="flex flex-wrap gap-2">
@@ -158,7 +158,7 @@ export default function Profile() {
                   <div className="space-y-6">
                     <Card className="bg-dark-gray border-gray-600">
                       <CardHeader>
-                        <CardTitle>Details</CardTitle>
+                        <CardTitle className="text-elegant-white">Details</CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-4">
                         {profile.industry && (
@@ -191,7 +191,7 @@ export default function Profile() {
 
                     <Card className="bg-dark-gray border-gray-600">
                       <CardHeader>
-                        <CardTitle>Connect</CardTitle>
+                        <CardTitle className="text-elegant-white">Connect</CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-4">
                         {profile.website && (
